@@ -9,7 +9,7 @@ var exphbs = require('express-handlebars');
 var expressSession = require('express-session');
 
 var index = require('./routes/index');
-//var users = require('./routes/users');
+var users = require('./routes/users');
 
 var app = express();
 
