@@ -1,1 +1,8 @@
-  
+felipes-Air:orcamento_0.0.6 fmuner$ git config format.pretty medium
+felipes-Air:orcamento_0.0.6 fmuner$ git log --graph
+* commit 37a82fd787ac60352e630dea56ae1e996f260556
+| Author: Felipe Muner <felipe.muner@gmail.com>
+| Date:   Thu Apr 27 21:18:10 2017 -0300
+|
+|     recapitulando diff depois checkout
+|
