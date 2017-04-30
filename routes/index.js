@@ -3,8 +3,6 @@ var router = express.Router();
 
 var User = require(process.env.PWD + '/model/User');
 
-//console.log(JSON.stringify(u,null,2));
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var u = new User(1, 2595, null, 1,1);
