@@ -16,10 +16,20 @@ var app = express();
 
 app.use(helmet())
 
-//ultimo teste git fetch / git diff / git  merge
+var hbs = exphbs.create({
+    defaultLayout:'layout',
+    helpers: {
+        section: function(name, options){
+            if(!this._sections) this._sections = {};
+            this._sections[name] = options.fn(this);
+            return null;
+        }
+    }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
@@ -29,6 +39,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressSession({secret:'e2r3$r!q0oIl', saveUninitialized:false, resave:false, name:'orca'}));
 
 app.use('/', index);
 //app.use('/users', users);
