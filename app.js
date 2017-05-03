@@ -1,5 +1,6 @@
 require('dotenv').config();
 var express = require('express');
+var helmet = require('helmet')
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -12,6 +13,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+app.use(helmet())
 
 //ultimo teste git fetch / git diff / git  merge
 
