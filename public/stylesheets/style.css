@@ -1,0 +1,11 @@
+div.meuMenu span:first-of-type{
+  padding-right: 5px;
+}
+
+div.meuMenu .label{
+  cursor: pointer;
+}
+
+.meuMenu .panel-heading{
+  padding: 5px;
+}

@@ -9,8 +9,11 @@ var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var expressSession = require('express-session');
 
+var conn = require('./conn');
+conn.init();
+
 var index = require('./routes/index');
-var users = require('./routes/users');
+//var users = require('./routes/users');
 
 var app = express();
 

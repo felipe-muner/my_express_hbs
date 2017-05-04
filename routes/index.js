@@ -4,20 +4,24 @@ var router = express.Router();
 var User = require(process.env.PWD + '/model/User');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  var u = new User(1, 2595, null, 1,1);
-  console.log(u);
-  res.render('index', {
-    User: JSON.stringify(u,null,2)
-  });
+router.get('/user', function(req, res, next) {
+  var u = new User();
+  u.getUser();
+  res.render('index', {});
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'login' });
+router.post('/createUser', function(req, res, next) {
+  console.log(req.body);
+  res.render('index', {});
 });
 
-router.get('/admin', function(req, res, next) {
-  res.render('admin', { title: 'admin' });
+router.post('/disableUser', function(req, res, next) {
+  res.render('index', {});
 });
+
+router.post('/editUser', function(req, res, next) {
+  res.render('index', {});
+});
+
 
 module.exports = router;
