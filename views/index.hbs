@@ -3,6 +3,30 @@
     <span>User</span><span class="label label-primary" data-toggle="modal" data-target="#newUser" >New</span>
   </div>
   <div class="panel-body">
+    <table class="table">
+      <thead>
+        <th>UserID</th>
+        <th>Name</th>
+        <th>Date Birth</th>
+        <th>Children</th>
+        <th>Active</th>
+        <th>Edit</th>
+        <th>Disable</th>
+      </thead>
+      <tbody>
+        {{#data}}
+          <tr>
+            <td>{{UserID}}</td>
+            <td>{{Name}}</td>
+            <td>{{DateBirth}}</td>
+            <td>{{QtdChild}}</td>
+            <td>{{Active}}</td>
+            <td class="text-center"><a href="/users/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+            <td class="text-center"><a href="users/disable"><i class="fa fa-times" aria-hidden="true"></i></a<</td>
+          </tr>
+        {{/data}}
+      </tbody>
+    </table>
 
   </div>
 </div>

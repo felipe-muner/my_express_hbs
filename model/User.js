@@ -11,12 +11,10 @@ function User(UserID, Matricula, Pass, GrupoID, Ativo){
     conn.acquire(function(err,con){
       con.query('SELECT * FROM User WHERE Active = 0', function(err, result) {
         con.release();
-        debugger;
         if(err){
           console.log('entrei no erro do getUser');
           res.render('error', { error: err } );
         }else{
-          console.log(result);
           res.render('user', {});
         }
       });
