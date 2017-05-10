@@ -40,7 +40,8 @@ router.get('/disable/:UserID', function(req, res, next) {
   });
 });
 
-router.get('/edit', function(req, res, next) {
+router.post('/edit', function(req, res, next) {
+  let user = req.body
   conn.acquire(function(err,con){
     con.query('UPDATE User SET ? WHERE UserID = ?', [user,user.UserID], function(err, result) {
       con.release();
@@ -49,17 +50,13 @@ router.get('/edit', function(req, res, next) {
         res.render('error', { error: err } );
       }else{
         console.log(result);
-        res.render('index', {data:result});
+        res.redirect('/users');
       }
     });
   });
 });
 
 router.post('/save', function(req, res, next) {
-  //--------- Parse querystring to object ---------
-  // var url_parts = url.parse(req.url, true);
-  // var query = url_parts.query;
-  //-----------------------------------------------
 
   let user = req.body
   conn.acquire(function(err,con){

@@ -9,3 +9,7 @@ div.meuMenu .label{
 .meuMenu .panel-heading{
   padding: 5px;
 }
+
+.fa{
+  cursor: pointer;
+}
