@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var conn = require(process.env.PWD + '/conn');
+var moment = require('moment');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -11,14 +12,20 @@ router.get('/', function(req, res, next) {
         console.log('entrei no erro do getUser');
         res.render('error', { error: err } );
       }else{
-        console.log(result);
+
+        result.map((el) => el.DateBirth = moment(el.DateBirth).format("DD/MM/YYYY"))
+
         res.render('index', {data:result});
       }
     });
   });
 });
 
-router.get('/disable', function(req, res, next) {
+router.get('/disable/:UserID', function(req, res, next) {
+
+  //req.params.UserID para recuperar o :UserID
+  //Em URL = users/disable/2?pais=brasil&mundo=terra , req.query retorna o objeto da querystring
+  let UserID = req.params.UserID
   conn.acquire(function(err,con){
     con.query('UPDATE User SET Active = 1 WHERE UserId = ?', [UserID],function(err, result) {
       con.release();
@@ -48,11 +55,13 @@ router.get('/edit', function(req, res, next) {
   });
 });
 
-router.post('/saveUser', function(req, res, next) {
+router.post('/save', function(req, res, next) {
   //--------- Parse querystring to object ---------
   // var url_parts = url.parse(req.url, true);
   // var query = url_parts.query;
   //-----------------------------------------------
+
+  let user = req.body
   conn.acquire(function(err,con){
     con.query('INSERT INTO User SET ?', [user], function(err, result) {
       con.release();
@@ -61,7 +70,7 @@ router.post('/saveUser', function(req, res, next) {
         res.render('error', { error: err } );
       }else{
         console.log(result);
-        res.render('index', {data:result});
+        res.redirect('/users');
       }
     });
   });
