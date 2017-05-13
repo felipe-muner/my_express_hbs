@@ -7,6 +7,12 @@ router.get('/', function(req, res, next) {
   res.render('login',{layout:false})
 });
 
+router.get('/logout', function(req, res, next) {
+  console.log('logout');
+  req.session.destroy();
+  res.render('login', {layout:false, msg : 'Logout Successfull !'})
+});
+
 router.post('/login', function(req, res, next) {
   conn.acquire(function(err,con){
     con.query('SELECT * FROM User WHERE Matricula = ?', [req.body.matricula], function(err, result) {
@@ -22,7 +28,7 @@ router.post('/login', function(req, res, next) {
           res.render('login',{ layout:false , msg: 'Incorrect Password'})
         }else{
           console.log('tudo certo!');
-          req.session.matricula = result[0].Matricula
+          req.session.Matricula = result[0].Matricula
           res.redirect('/panel')
         }
       }
@@ -32,12 +38,13 @@ router.post('/login', function(req, res, next) {
 
 router.get('*', function(req, res, next) {
   console.log('entrei *');
-  console.log('matricula na sesscao ?', req.session.matricula);
-  req.session.matricula ? next() : res.redirect('/');
+  console.log('matricula na sessao ?', req.session.matricula);
+  req.session.Matricula ? next() : res.redirect('/');
 });
 
 router.get('/panel', function(req, res, next) {
   console.log('panel');
+  console.log('sessao no painel', req.session);
   res.render('panel',{userSession: req.session})
 });
 
