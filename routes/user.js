@@ -13,9 +13,7 @@ router.get('/', function(req, res, next) {
         console.log('entrei no erro do getUser');
         res.render('error', { error: err } );
       }else{
-
         result.map((el) => el.DateBirth = moment(el.DateBirth).format("DD/MM/YYYY"))
-
         res.render('user', {data:result});
       }
     });
