@@ -5,7 +5,6 @@ var moment = require('moment');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  console.log('qwe');
   conn.acquire(function(err,con){
     con.query('SELECT * FROM User WHERE Active = 0', function(err, result) {
       con.release();

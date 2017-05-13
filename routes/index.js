@@ -1,9 +1,44 @@
 var express = require('express');
 var router = express.Router();
+var conn = require(process.env.PWD + '/conn');
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('index')
+  console.log('raiz');
+  res.render('login',{layout:false})
+});
+
+router.post('/login', function(req, res, next) {
+  conn.acquire(function(err,con){
+    con.query('SELECT * FROM User WHERE Matricula = ?', [req.body.matricula], function(err, result) {
+      con.release();
+      if(err){
+        res.render('error', { error: err } );
+      }else{
+        debugger;
+        console.log(result);
+        if(0 === result.length){
+          res.render('login',{ layout:false , msg: 'Incorrect Matricula'})
+        }else if(req.body.password !== result[0].Password){
+          res.render('login',{ layout:false , msg: 'Incorrect Password'})
+        }else{
+          console.log('tudo certo!');
+          req.session.matricula = result[0].Matricula
+          res.redirect('/panel')
+        }
+      }
+    });
+  });
+});
+
+router.get('*', function(req, res, next) {
+  console.log('entrei *');
+  console.log('matricula na sesscao ?', req.session.matricula);
+  req.session.matricula ? next() : res.redirect('/');
+});
+
+router.get('/panel', function(req, res, next) {
+  console.log('panel');
+  res.render('panel',{userSession: req.session})
 });
 
 module.exports = router;

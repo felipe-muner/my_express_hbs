@@ -18,16 +18,16 @@ var user = require('./routes/user');
 var app = express();
 
 app.use(helmet())
-//adicionando teste branch
+
 var hbs = exphbs.create({
-    defaultLayout:'layout',
-    helpers: {
-        section: function(name, options){
-            if(!this._sections) this._sections = {};
-            this._sections[name] = options.fn(this);
-            return null;
-        }
+  defaultLayout:'layout',
+  helpers: {
+    section: function(name, options){
+      if(!this._sections) this._sections = {};
+      this._sections[name] = options.fn(this);
+      return null;
     }
+  }
 });
 
 // view engine setup
@@ -37,12 +37,13 @@ app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({secret:'e2r3$r!q0oIl', saveUninitialized:false, resave:false, name:'orca'}));
+
 
 app.use('/', index);
 app.use('/user', user);
