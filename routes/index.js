@@ -38,7 +38,7 @@ router.post('/login', function(req, res, next) {
 
 router.get('*', function(req, res, next) {
   console.log('entrei *');
-  console.log('matricula na sessao ?', req.session.matricula);
+  console.log('matricula na sessao ?', req.session.Matricula);
   req.session.Matricula ? next() : res.redirect('/');
 });
 

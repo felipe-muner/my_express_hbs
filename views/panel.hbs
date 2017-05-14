@@ -1,1 +1,3 @@
-minha matricula é {{userSession.Matricula}}
+{{#if userSession}}
+  <h1>{{userSession.Matricula}}</h1>
+{{/if}}
