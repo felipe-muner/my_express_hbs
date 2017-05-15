@@ -20,8 +20,6 @@ router.post('/login', function(req, res, next) {
       if(err){
         res.render('error', { error: err } );
       }else{
-        debugger;
-        console.log(result);
         if(0 === result.length){
           res.render('login',{ layout:false , msg: 'Incorrect Matricula'})
         }else if(req.body.password !== result[0].Password){
