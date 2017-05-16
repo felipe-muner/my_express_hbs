@@ -14,13 +14,13 @@
       }
     </style>
   </head>
-  <body style="background-color:#ddd;">
+  <body style="background-image:url(/images/background-login.jpg);background-size:cover;">
     <div class="container">
-      <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+      <div id="loginbox" style="margin-top:150px;" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
           <div class="panel-heading">
             <div class="panel-title">System name</div>
-            <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+            <div style="float:right; font-size: 80%; position: relative; top:-10px" data-toggle="modal" data-target="#myModal"><a href="#">Forgot password?</a></div>
           </div>
           <div style="padding-top:15px" class="panel-body" >
             {{#if msg}}
@@ -37,13 +37,13 @@
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                 <input id="password" type="password" class="form-control" name="password" value="" placeholder=" Password">
               </div>
-                    <!-- <div class="input-group">
-                      <div class="checkbox">
-                        <label>
-                          <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
-                        </label>
-                      </div>
-                    </div> -->
+                <!-- <div class="input-group">
+                  <div class="checkbox">
+                    <label>
+                      <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                    </label>
+                  </div>
+                </div> -->
               <div style="margin-top:15px" class="form-group text-right">
                 <div class="col-sm-12 controls">
                   <input type="submit" class="btn btn-success" value="Login">
@@ -67,5 +67,23 @@
     </div>
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Forgot password?</h4>
+          </div>
+          <div class="modal-body">
+            <input type="text" name="matriculaOrEmail" placeholder=" Matrícula or E-mail" class="form-control">
+            <div class="text-right" style="margin-top:10px;">
+              <button type="button" class="btn btn-primary">Send</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </body>
 </html>
