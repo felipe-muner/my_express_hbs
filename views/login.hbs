@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Sistema - Login Page</title>
     <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/style.css" rel="stylesheet">
     <style media="screen">
       input::-webkit-outer-spin-button,
       input::-webkit-inner-spin-button {
@@ -13,7 +14,7 @@
       }
     </style>
   </head>
-  <body>
+  <body style="background-color:#ddd;">
     <div class="container">
       <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
@@ -21,10 +22,10 @@
             <div class="panel-title">System name</div>
             <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
           </div>
-          <div style="padding-top:30px" class="panel-body" >
+          <div style="padding-top:15px" class="panel-body" >
             {{#if msg}}
               <div id="login-alert" class="alert alert-danger col-sm-12">
-                {{this.msg}}
+                <ul><li>{{this.msg}}</li></ul>
               </div>
             {{/if}}
             <form id="loginForm" class="form-horizontal" role="form" method="post" action="/login">
@@ -43,7 +44,7 @@
                         </label>
                       </div>
                     </div> -->
-              <div style="margin-top:10px" class="form-group text-right">
+              <div style="margin-top:15px" class="form-group text-right">
                 <div class="col-sm-12 controls">
                   <input type="submit" class="btn btn-success" value="Login">
                   <!-- <a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a> -->

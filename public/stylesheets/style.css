@@ -13,3 +13,7 @@ div.meuMenu .label{
 .fa{
   cursor: pointer;
 }
+
+.alert{
+  margin-bottom: 15px;
+}
