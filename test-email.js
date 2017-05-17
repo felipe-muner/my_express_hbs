@@ -1,5 +1,4 @@
 require('dotenv').config();
-const nodemailer = require('nodemailer');
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
@@ -12,7 +11,7 @@ let transporter = nodemailer.createTransport({
 
 // setup email data with unicode symbols
 let mailOptions = {
-    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
+    from: '"Company Recover Password 👻" <foo@blurdybloop.com>', // sender address
     to: 'felipe.muner@gmail.com', // list of receivers
     subject: 'Hello ✔', // Subject line
     text: 'Hello world ?', // plain text body
