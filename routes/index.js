@@ -30,9 +30,14 @@ router.post('/emailforgetpassword', function(req, res, next) {
       if(err){
         res.render('error', { error: err } );
       }else{
-        console.log(result);
-        console.log(!!result.affectedRows);
-        res.render('qwe', { error: err } );
+        if(!!result.affectedRows){
+          console.log('trocou');
+          res.render('qwe');
+        }else{
+          console.log('n trocou');
+          res.render('qwe');
+        }
+
       }
     });
   });
