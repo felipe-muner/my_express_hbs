@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
     con.query('SELECT * FROM User WHERE Active = 0', function(err, result) {
       con.release();
       if(err){
-        console.log('entrei no erro do getUser');
         res.render('error', { error: err } );
       }else{
         result.map((el) => el.DateBirth = moment(el.DateBirth).format("DD/MM/YYYY"))
@@ -28,7 +27,6 @@ router.get('/disable/:UserID', function(req, res, next) {
     con.query('UPDATE User SET Active = 1 WHERE UserId = ?', [UserID],function(err, result) {
       con.release();
       if(err){
-        console.log('entrei no erro do getUser');
         res.render('error', { error: err } );
       }else{
         console.log(result);
@@ -44,10 +42,8 @@ router.post('/edit', function(req, res, next) {
     con.query('UPDATE User SET ? WHERE UserID = ?', [user,user.UserID], function(err, result) {
       con.release();
       if(err){
-        console.log('entrei no erro do getUser');
         res.render('error', { error: err } );
       }else{
-        console.log(result);
         res.redirect('/user');
       }
     });
@@ -62,7 +58,6 @@ router.post('/save', function(req, res, next) {
     con.query('INSERT INTO User SET ?', [user], function(err, result) {
       con.release();
       if(err){
-        console.log('entrei no erro do getUser');
         res.render('error', { error: err } );
       }else{
         console.log(result);

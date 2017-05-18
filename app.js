@@ -1,13 +1,14 @@
 require('dotenv').config();
-var express = require('express');
-var helmet = require('helmet')
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var expressSession = require('express-session');
+const express = require('express');
+const helmet = require('helmet')
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const exphbs = require('express-handlebars');
+const expressSession = require('express-session');
+const nodemailer = require('nodemailer');
 
 var conn = require('./conn');
 conn.init();
