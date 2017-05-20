@@ -2,10 +2,9 @@ var express = require('express');
 var router = express.Router();
 var conn = require(process.env.PWD + '/conn');
 var Util = require(process.env.PWD + '/util/Util')
-
+var mailSender = require(process.env.PWD + '/util/MailSender')
 
 router.get('/', function(req, res, next) {
-  console.log('raiz123');
   res.render('login',{layout:false})
 });
 
@@ -31,10 +30,28 @@ router.post('/emailforgetpassword', function(req, res, next) {
         res.render('error', { error: err } );
       }else{
         if(!!result.affectedRows){
-          console.log('trocou');
+          //console.log('trocou');
+          let msgMail = {};
+          msgMail.from = '"Company Recover Password 👻" <foo@blurdybloop.com>'
+          msgMail.to = 'felipe.muner@gmail.com'
+          msgMail.subject = 'Olar'
+          msgMail.text = 'Hello world ?'
+          msgMail.html = '<b>' + randomString + '</b>'
+          msgMail.attachments = [
+                                {   // utf-8 string as an attachment
+                                  filename: 'text1.txt',
+                                  content: 'hello world!'
+                                },
+                                {   // binary buffer as an attachment
+                                  filename: 'text2.txt',
+                                  content: new Buffer('hello world!','utf-8')
+                                }
+                              ]
+
+          mailSender(msgMail)
           res.render('qwe');
         }else{
-          console.log('n trocou');
+          //console.log('n trocou');
           res.render('qwe');
         }
 
