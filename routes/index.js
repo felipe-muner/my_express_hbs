@@ -30,29 +30,55 @@ router.post('/emailforgetpassword', function(req, res, next) {
         res.render('error', { error: err } );
       }else{
         if(!!result.affectedRows){
-          //console.log('trocou');
-          let msgMail = {};
-          msgMail.from = '"Company Recover Password 👻" <foo@blurdybloop.com>'
-          msgMail.to = 'felipe.muner@gmail.com'
-          msgMail.subject = 'Olar'
-          msgMail.text = 'Hello world ?'
-          msgMail.html = '<b>' + randomString + '</b>'
-          msgMail.attachments = [
-                                {   // utf-8 string as an attachment
-                                  filename: 'text1.txt',
-                                  content: 'hello world!'
-                                },
-                                {   // binary buffer as an attachment
-                                  filename: 'text2.txt',
-                                  content: new Buffer('hello world!','utf-8')
-                                }
-                              ]
 
-          mailSender(msgMail)
-          res.render('qwe');
+          if(Number.isInteger(parseInt(userToReset))){
+            sql = 'SELECT Email FROM User WHERE Matricula = ?'
+            con.query(sql, [userToReset], function(err, result) {
+              console.log('HERRR', this.sql);
+              let msgMail = {};
+              msgMail.from = '"Company Recover Password 👻" <foo@blurdybloop.com>'
+              msgMail.to = result[0].Email
+              msgMail.subject = 'Olar'
+              msgMail.text = 'Hello world ?'
+              msgMail.html = '<b>' + randomString + '</b>'
+              msgMail.attachments = [
+                                    {   // utf-8 string as an attachment
+                                      filename: 'text1.txt',
+                                      content: 'hello world!'
+                                    },
+                                    {   // binary buffer as an attachment
+                                      filename: 'text2.txt',
+                                      content: new Buffer('hello world!','utf-8')
+                                    }
+                                  ]
+              mailSender(msgMail)
+              res.render('qwe',{msg: 'trocou senha e enviou email'});
+            })
+          }else{
+              let msgMail = {};
+              msgMail.from = '"Company Recover Password 👻" <foo@blurdybloop.com>'
+              msgMail.to = userToReset
+              msgMail.subject = 'Olar'
+              msgMail.text = 'Hello world ?'
+              msgMail.html = '<b>' + randomString + '</b>'
+              msgMail.attachments = [
+                                    {   // utf-8 string as an attachment
+                                      filename: 'text1.txt',
+                                      content: 'hello world!'
+                                    },
+                                    {   // binary buffer as an attachment
+                                      filename: 'text2.txt',
+                                      content: new Buffer('hello world!','utf-8')
+                                    }
+                                  ]
+              mailSender(msgMail)
+              res.render('qwe',{msg: 'trocou senha e enviou email'});
+          }
+
+
         }else{
-          //console.log('n trocou');
-          res.render('qwe');
+          console.log('n trocou');
+          res.render('qwe',{msg: 'NAO TROCOU, DEU RUIM'});
         }
 
       }
