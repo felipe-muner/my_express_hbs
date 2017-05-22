@@ -53,7 +53,6 @@ router.post('/edit', function(req, res, next) {
 router.post('/save', function(req, res, next) {
 
   let user = req.body
-  user.password = 123
   conn.acquire(function(err,con){
     con.query('INSERT INTO User SET ?', [user], function(err, result) {
       con.release();
