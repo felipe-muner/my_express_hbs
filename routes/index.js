@@ -11,8 +11,17 @@ router.get('/', function(req, res, next) {
 router.get('/logout', function(req, res, next) {
   console.log('logout');
   req.session.destroy();
-  res.render('login', {layout:false, msg : 'Logout Successfull !'})
+  res.render('login', {layout:false, alertClass: 'alert-info', msg : 'Logout Successfull !'})
 });
+
+router.get('/change-password', function(req, res, next) {
+  res.render('change-password', {layout:false})
+});
+
+router.post('/change-password', function(req, res, next) {
+  console.log(req.body);
+  res.send('vou trocar a senha')
+})
 
 router.post('/emailforgetpassword', function(req, res, next) {
   conn.acquire(function(err,con){
@@ -20,9 +29,9 @@ router.post('/emailforgetpassword', function(req, res, next) {
     let userToReset = req.body.matriculaOrEmail
     let sql = ''
     if(Number.isInteger(parseInt(userToReset))){
-        sql = 'UPDATE User SET Password = ? WHERE Matricula = ?'
+        sql = 'UPDATE User SET Password = ?, ChangePassword=0 WHERE Matricula = ?'
     }else{
-        sql = 'UPDATE User SET Password = ? WHERE Email = ?'
+        sql = 'UPDATE User SET Password = ?, ChangePassword=0 WHERE Email = ?'
     }
     con.query(sql, [randomString, userToReset], function(err, result) {
       con.release();
@@ -61,8 +70,13 @@ router.post('/login', function(req, res, next) {
         }else if(req.body.password !== result[0].Password){
           res.render('login',{ layout:false , msg: 'Incorrect Password'})
         }else{
-          req.session.Matricula = result[0].Matricula
-          res.redirect('/panel')
+          if(0 === result[0].ChangePassword){
+            console.log('precisa alterar a senha');
+            res.redirect('/change-password')
+          }else{
+            req.session.Matricula = result[0].Matricula
+            res.redirect('/panel')
+          }
         }
       }
     });
