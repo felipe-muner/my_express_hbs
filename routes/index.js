@@ -41,7 +41,7 @@ router.post('/emailforgetpassword', function(req, res, next) {
               res.render('login',{layout:false, alertClass: 'alert-success', msg: 'Please, check your e-mail. New Password was sent.'});
           }
         }else{
-          res.render('login',{layout:false, alertClass: 'alert-danger', msg: 'Incorrect Matrícula / E-mail .'});
+          res.render('login',{layout:false, alertClass: 'alert-danger', msg: 'Incorrect Matrícula / E-mail.'});
         }
 
       }
