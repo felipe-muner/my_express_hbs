@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const expressSession = require('express-session');
 const nodemailer = require('nodemailer');
+const mailSender = require(process.env.PWD + '/util/MailSender')
 
 var conn = require('./conn');
 conn.init();
@@ -45,6 +46,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({secret:'e2r3$r!q0oIl', saveUninitialized:false, resave:false, name:'orca'}));
 
+app.use(function(req,res,next){
+  console.log(new Date());
+  console.log(req.session);
+  next()
+})
 
 app.use('/', index);
 app.use('/user', user);
@@ -58,7 +64,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

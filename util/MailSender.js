@@ -9,16 +9,32 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-module.exports =  function(mailOptions) {
-
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-          return console.log(error);
-      }
-      console.log('Message %s sent: %s', info.messageId, info.response);
-  });
-
+module.exports = {
+  emailRecoverPassword: function(newPassword, userEmail) {
+    let mailOptions = {};
+    mailOptions.from = '"Company Recover Password 👻" <foo@blurdybloop.com>'
+    mailOptions.to = userEmail
+    mailOptions.subject = 'Olar'
+    mailOptions.text = 'Hello world ?'
+    mailOptions.html = '<style>div { color:red; }</style><div style="color:red;">'+ newPassword +'</div>'
+    mailOptions.attachments = [
+                          {   // utf-8 string as an attachment
+                            filename: 'text1.txt',
+                            content: 'hello world!'
+                          },
+                          {   // binary buffer as an attachment
+                            filename: 'text2.txt',
+                            content: new Buffer('hello world!','utf-8')
+                          }
+                        ]
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+    });
+  }
 }
 
 

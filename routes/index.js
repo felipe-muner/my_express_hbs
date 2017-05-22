@@ -30,55 +30,18 @@ router.post('/emailforgetpassword', function(req, res, next) {
         res.render('error', { error: err } );
       }else{
         if(!!result.affectedRows){
-
           if(Number.isInteger(parseInt(userToReset))){
             sql = 'SELECT Email FROM User WHERE Matricula = ?'
-            con.query(sql, [userToReset], function(err, result) {
-              console.log('HERRR', this.sql);
-              let msgMail = {};
-              msgMail.from = '"Company Recover Password 👻" <foo@blurdybloop.com>'
-              msgMail.to = result[0].Email
-              msgMail.subject = 'Olar'
-              msgMail.text = 'Hello world ?'
-              msgMail.html = '<b>' + randomString + '</b>'
-              msgMail.attachments = [
-                                    {   // utf-8 string as an attachment
-                                      filename: 'text1.txt',
-                                      content: 'hello world!'
-                                    },
-                                    {   // binary buffer as an attachment
-                                      filename: 'text2.txt',
-                                      content: new Buffer('hello world!','utf-8')
-                                    }
-                                  ]
-              mailSender(msgMail)
-              res.render('qwe',{msg: 'trocou senha e enviou email'});
+            con.query(sql, [parseInt(userToReset)], function(err, result) {
+              mailSender.emailRecoverPassword(randomString, result[0].Email)
+              res.render('login',{layout:false, alertClass: 'alert-success', msg: 'Please, check your e-mail. New Password was sent.'});
             })
           }else{
-              let msgMail = {};
-              msgMail.from = '"Company Recover Password 👻" <foo@blurdybloop.com>'
-              msgMail.to = userToReset
-              msgMail.subject = 'Olar'
-              msgMail.text = 'Hello world ?'
-              msgMail.html = '<b>' + randomString + '</b>'
-              msgMail.attachments = [
-                                    {   // utf-8 string as an attachment
-                                      filename: 'text1.txt',
-                                      content: 'hello world!'
-                                    },
-                                    {   // binary buffer as an attachment
-                                      filename: 'text2.txt',
-                                      content: new Buffer('hello world!','utf-8')
-                                    }
-                                  ]
-              mailSender(msgMail)
-              res.render('qwe',{msg: 'trocou senha e enviou email'});
+              mailSender.emailRecoverPassword(randomString, userToReset)
+              res.render('login',{layout:false, alertClass: 'alert-success', msg: 'Please, check your e-mail. New Password was sent.'});
           }
-
-
         }else{
-          console.log('n trocou');
-          res.render('qwe',{msg: 'NAO TROCOU, DEU RUIM'});
+          res.render('login',{layout:false, alertClass: 'alert-danger', msg: 'Incorrect Matrícula / E-mail .'});
         }
 
       }
