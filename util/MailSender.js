@@ -16,17 +16,12 @@ module.exports = {
     mailOptions.to = userEmail
     mailOptions.subject = 'Olar'
     mailOptions.text = 'Hello world ?'
-    mailOptions.html = '<style>div { color:red; }</style><div style="color:red;">'+ newPassword +'</div>'
-    mailOptions.attachments = [
-                          {   // utf-8 string as an attachment
-                            filename: 'text1.txt',
-                            content: 'hello world!'
-                          },
-                          {   // binary buffer as an attachment
-                            filename: 'text2.txt',
-                            content: new Buffer('hello world!','utf-8')
-                          }
-                        ]
+    mailOptions.html = '<div style="background-color:#DDD;width:700px;height:200px;-webkit-border-radius: 10px;-moz-border-radius: 10px;border-radius: 10px;">'+
+                          '<p style="font-size:22px;text-align:center;padding-top:20px;">Sucesso.com</p>'+
+                          '<ul><li>Click below and insert the new password</li></ul>'+
+                          '<p style="font-size:14px;text-align:left;padding-left:40px;padding-top:20px;">'+ process.env.RAIZ+'/change-password?m='+userEmail+'&p='+newPassword+'</p>'+
+                       '</div>',
+
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {

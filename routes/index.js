@@ -19,8 +19,32 @@ router.get('/change-password', function(req, res, next) {
 });
 
 router.post('/change-password', function(req, res, next) {
-  console.log(req.body);
-  res.send('vou trocar a senha')
+  let Email = req.body.Email
+  let Password = req.body.currentpassword
+  conn.acquire(function(err,con){
+    con.query('SELECT Matricula FROM User where Email = ? AND Password = ?', [Email, Password], function(err, result) {
+      con.release();
+      if(err){
+        res.render('error', { error: err } );
+      }else{
+        if(0 === result.length){
+          res.send('ninguem com essa senha')
+        }else{
+          conn.acquire(function(err,con){
+            con.query('UPDATE User SET Password = ?, ChangePassword = 1, PasswordChanged = NOW() WHERE Email = ?', [req.body.Password, Email], function(err, result) {
+              con.release();
+              if(err){
+                res.render('error', { error: err } );
+              }else{
+
+                res.send(result);
+              }
+            })
+          })
+        }
+      }
+    });
+  });
 })
 
 router.post('/emailforgetpassword', function(req, res, next) {
