@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "body-parser": "~1.15.2",
+    "cheerio": "^1.0.0-rc.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "dotenv": "^4.0.0",
@@ -21,6 +22,7 @@
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "styliner": "^1.0.3"
   }
 }

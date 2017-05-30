@@ -15,6 +15,20 @@ router.get('/logout', function(req, res, next) {
 });
 
 router.get('/change-password', function(req, res, next) {
+  //(req.session.credential) ? console.log('tem credential') : console.log('n-------tem credential');
+  let obj = {layout:false}
+  if (req.session.credential) {
+    obj.matricula = req.session.credential.matricula
+    obj.password = req.session.credential.password
+    console.log('$$$$$$ - tem credencial');
+  } else {
+    console.log('----n tem credencial');
+  }
+  console.log(obj);
+  res.render('change-password', obj)
+});
+
+router.get('/email-change-password', function(req, res, next) {
   res.render('change-password', {layout:false})
 });
 
@@ -22,7 +36,14 @@ router.post('/change-password', function(req, res, next) {
   let Email = req.body.Email
   let Password = req.body.currentpassword
   conn.acquire(function(err,con){
-    con.query('SELECT Matricula FROM User where Email = ? AND Password = ?', [Email, Password], function(err, result) {
+    let sql = ''
+    if(Number.isInteger(parseInt(Email))){
+        sql = 'SELECT Matricula FROM User where Matricula = ? AND Password = ?'
+    }else{
+        sql = 'SELECT Matricula FROM User where Email = ? AND Password = ?'
+    }
+    con.query(sql, [Email, Password], function(err, result) {
+      console.log(this.sql);
       con.release();
       if(err){
         res.render('error', { error: err } );
@@ -31,12 +52,17 @@ router.post('/change-password', function(req, res, next) {
           res.send('ninguem com essa senha')
         }else{
           conn.acquire(function(err,con){
-            con.query('UPDATE User SET Password = ?, ChangePassword = 1, PasswordChanged = NOW() WHERE Email = ?', [req.body.Password, Email], function(err, result) {
+            if(Number.isInteger(parseInt(Email))){
+                sql = 'UPDATE User SET Password = ?, ChangePassword = 1, PasswordChanged = NOW() WHERE Matricula = ?'
+            }else{
+                sql = 'UPDATE User SET Password = ?, ChangePassword = 1, PasswordChanged = NOW() WHERE Email = ?'
+            }
+            con.query(sql, [req.body.Password, Email], function(err, result) {
+              console.log('update' + this.sql);
               con.release();
               if(err){
                 res.render('error', { error: err } );
               }else{
-
                 res.send(result);
               }
             })
@@ -90,12 +116,12 @@ router.post('/login', function(req, res, next) {
         res.render('error', { error: err } );
       }else{
         if(0 === result.length){
-          res.render('login',{ layout:false , msg: 'Incorrect Matricula'})
+          res.render('login',{ layout:false , alertClass: 'alert-danger', msg: 'Incorrect Matricula'})
         }else if(req.body.password !== result[0].Password){
-          res.render('login',{ layout:false , msg: 'Incorrect Password'})
+          res.render('login',{ layout:false , alertClass: 'alert-danger', msg: 'Incorrect Password'})
         }else{
           if(0 === result[0].ChangePassword){
-            console.log('precisa alterar a senha');
+            req.session.credential = req.body
             res.redirect('/change-password')
           }else{
             req.session.Matricula = result[0].Matricula

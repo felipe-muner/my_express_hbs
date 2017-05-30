@@ -1,4 +1,9 @@
+require('dotenv').config();
 const nodemailer = require('nodemailer');
+const fs = require('fs')
+const Styliner = require('styliner')
+const cheerio = require('cheerio')
+var styliner = new Styliner(__dirname);
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
@@ -11,26 +16,38 @@ let transporter = nodemailer.createTransport({
 
 module.exports = {
   emailRecoverPassword: function(newPassword, userEmail) {
-    let mailOptions = {};
-    mailOptions.from = '"Company Recover Password 👻" <foo@blurdybloop.com>'
-    mailOptions.to = userEmail
-    mailOptions.subject = 'Olar'
-    mailOptions.text = 'Hello world ?'
-    mailOptions.html = '<div style="background-color:#DDD;width:700px;height:200px;-webkit-border-radius: 10px;-moz-border-radius: 10px;border-radius: 10px;">'+
-                          '<p style="font-size:22px;text-align:center;padding-top:20px;">Sucesso.com</p>'+
-                          '<ul><li>Click below and insert the new password</li></ul>'+
-                          '<p style="font-size:14px;text-align:left;padding-left:40px;padding-top:20px;">'+ process.env.RAIZ+'/change-password?m='+userEmail+'&p='+newPassword+'</p>'+
-                       '</div>',
+    fs.readFile(process.env.PWD + '/views/email/emailRecoverPassword.html', {encoding: 'utf-8'}, function (err, html) {
+          if (err) {
+              throw err;
+              callback(err);
+          }else{
+            styliner.processHTML(html)
+                .then(function(processedSource) {
+                  const $ = cheerio.load(processedSource)
+                  let qs = '?u=' + userEmail + '&p=' + newPassword + '&recoveremail=true'
+                  $("#linkchangepassword").attr("href", "http://localhost:3000/change-password" + qs)
+                  console.log($('body').html());
 
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-    });
+                  let mailOptions = {};
+                  mailOptions.from = '"Company - Recover Password 👻" <noreply@company.com>'
+                  mailOptions.to = userEmail
+                  mailOptions.subject = 'System Recover Password'
+                  mailOptions.text = 'Recover Password'
+                  mailOptions.html = $('body').html()
+
+                  transporter.sendMail(mailOptions, (error, info) => {
+                      if (error) {
+                          return console.log(error);
+                      }
+                      console.log('Message %s sent: %s', info.messageId, info.response);
+                  });
+                });
+          }
+    })
+
   }
 }
+
 
 
 // // setup email data with unicode symbols
