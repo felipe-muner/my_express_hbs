@@ -21,11 +21,14 @@ router.get('/change-password', function(req, res, next) {
     obj.matricula = req.session.credential.matricula
     obj.password = req.session.credential.password
     console.log('$$$$$$ - tem credencial');
+    req.session.credential.matricula = null
+    req.session.credential.password = null
+    res.render('change-password', obj)
   } else {
     console.log('----n tem credencial');
+    res.render('change-password', obj)
   }
-  console.log(obj);
-  res.render('change-password', obj)
+  console.log('felipe' + JSON.stringify(obj));
 });
 
 router.get('/email-change-password', function(req, res, next) {
