@@ -17,5 +17,14 @@ module.exports = {
 
   sayHelloInSpanish: function() {
     return "Hola";
+  },
+
+  generateHTMLReport: function(query,fields) {
+    console.log('query ---' + query);
+    debugger
+    console.log('campos ---' + typeof fields);
+    let html = query
+    html = html + fields
+    return html
   }
 }

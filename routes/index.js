@@ -3,9 +3,34 @@ var router = express.Router();
 var conn = require(process.env.PWD + '/conn');
 var Util = require(process.env.PWD + '/util/Util')
 var mailSender = require(process.env.PWD + '/util/MailSender')
+var fs = require('fs');
+var pdf = require('html-pdf');
+var A4option = require(process.env.PWD + '/views/report/A4config')
 
 router.get('/', function(req, res, next) {
   res.render('login',{layout:false})
+});
+
+router.get('/gerarPDF', function(req, res, next) {
+
+  conn.acquire(function(err,con){
+    con.query('select * from User', function(err, result) {
+
+      //let html = Util.generateHTMLReport(result,['UserID','Matricula','Name','DateBirth','PasswordChanged'])
+
+      let html = result.reduce(function(acc, item){
+        return acc + item.Name + '<br />'
+      }, '')
+
+      //let html = fs.readFileSync(process.env.PWD + '/routes/teste.html', 'utf8');
+      pdf.create(html, A4option).toFile(function(err, pdfFile) {
+        if (err) return console.log(err);
+
+        res.download(pdfFile.filename, 'report.pdf')
+      });
+
+    })
+  })
 });
 
 router.get('/logout', function(req, res, next) {
