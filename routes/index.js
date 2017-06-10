@@ -12,23 +12,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/gerarPDF', function(req, res, next) {
-
   conn.acquire(function(err,con){
-    con.query('select * from User', function(err, result) {
-
-      //let html = Util.generateHTMLReport(result,['UserID','Matricula','Name','DateBirth','PasswordChanged'])
-
-      let html = result.reduce(function(acc, item){
-        return acc + item.Name + '<br />'
-      }, '')
-
-      //let html = fs.readFileSync(process.env.PWD + '/routes/teste.html', 'utf8');
-      pdf.create(html, A4option).toFile(function(err, pdfFile) {
-        if (err) return console.log(err);
-
-        res.download(pdfFile.filename, 'report.pdf')
-      });
-
+    con.query('select * from User u inner join AccessGroup ag on u.Group_ID = ag.AccessGroupID', function(err, result) {
+      con.release();
+      if(err){
+        res.render('error', { error: err } );
+      }else{
+        let html = Util.generateHTMLReport(res,result,['Group_ID','Matricula','DateBirth','PasswordChanged','Password'])
+      }
     })
   })
 });

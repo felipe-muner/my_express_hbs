@@ -46,11 +46,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({secret:'e2r3$r!q0oIl', saveUninitialized:false, resave:false, name:'orca'}));
 
-app.use(function(req,res,next){
-  console.log(new Date());
-  console.log(req.session);
-  next()
-})
+// app.use(function(req,res,next){
+//   console.log('herr', new Date());
+//   console.log(req.session);
+//   next()
+// })
 
 app.use('/', index);
 app.use('/user', user);

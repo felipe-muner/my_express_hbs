@@ -55,6 +55,7 @@ router.post('/save', function(req, res, next) {
   let user = req.body
   conn.acquire(function(err,con){
     con.query('INSERT INTO User SET ?', [user], function(err, result) {
+      console.log(this.sql);
       con.release();
       if(err){
         res.render('error', { error: err } );
