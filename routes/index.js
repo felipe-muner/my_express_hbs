@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/gerarPDF', function(req, res, next) {
   conn.acquire(function(err,con){
-    con.query('select * from User u inner join AccessGroup ag on u.Group_ID = ag.AccessGroupID', function(err, result) {
+    con.query('select * from User u inner join AccessGroup ag on u.Group_ID = ag.AccessGroupID limit 3000', function(err, result) {
       con.release();
       if(err){
         res.render('error', { error: err } );

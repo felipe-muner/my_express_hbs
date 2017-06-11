@@ -34,21 +34,25 @@ module.exports = {
               //fields.map((f) => $('#bodyTable').append('<td>' + e[f] + '</td>'))
               fields.map(function(f){
                 if(Object.prototype.toString.call( e[f] ) === '[object Date]'){
-                  console.log(e[f]);
                   e[f] = moment(e[f]).format("DD/MM/YYYY")
                 }
                 $('#bodyTable').append('<td>' + e[f] + '</td>')
               })
               $('#bodyTable').append('</tr>')
             })
+            fs.readFile(process.env.PWD + '/views/report/headerTemplate.html', {encoding: 'utf-8'}, function (err, header) {
+              A4option.header.contents = header
+              fs.readFile(process.env.PWD + '/views/report/footerTemplate.html', {encoding: 'utf-8'}, function (err, footer) {
+                A4option.footer.contents.default = footer
+                pdf.create($.html(), A4option).toFile(function(err, pdfFile) {
+                  if (err) return console.log(err);
+                  res.download(pdfFile.filename, new Date() + 'report.pdf')
+                  var end = new Date()
+                  console.log('tempo : ', end - begin );
+                });
+              })
 
-            pdf.create($.html(), A4option).toFile(function(err, pdfFile) {
-              if (err) return console.log(err);
-              res.download(pdfFile.filename, new Date() + 'report.pdf')
-              var end = new Date()
-              console.log('tempo : ', end - begin );
-            });
-
+            })
           });
       }
     })

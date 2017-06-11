@@ -16,7 +16,7 @@ connection.connect(function(err) {
   for (var i = 0; i < 5200; i++) {
 
     connection.query('INSERT INTO User SET `Matricula` = ?, `Name` = ?, `DateBirth` = ?, `QtdChild` = ?',
-    [i+904000,'felipe', new Date(),321], function (error, results, fields) {
+    [i+901000,'felipe', new Date(),321], function (error, results, fields) {
       if (error) throw error;
       // connected!
     });
