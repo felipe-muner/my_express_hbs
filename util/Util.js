@@ -20,12 +20,15 @@ module.exports = {
           throw err;
           callback(err);
       }else{
+        var begin = new Date()
         styliner.processHTML(html)
           .then(function(processedSource) {
             const $ = cheerio.load(processedSource)
+
             fields.map(function(e){
               $('#headerTable').append('<th>'+ e +'</th>')
             })
+
             query.map(function(e){
               $('#bodyTable').append('<tr>')
               //fields.map((f) => $('#bodyTable').append('<td>' + e[f] + '</td>'))
@@ -39,14 +42,11 @@ module.exports = {
               $('#bodyTable').append('</tr>')
             })
 
-
-
-
-            //console.log($.html());
-            //res.send($.html())
             pdf.create($.html(), A4option).toFile(function(err, pdfFile) {
               if (err) return console.log(err);
               res.download(pdfFile.filename, new Date() + 'report.pdf')
+              var end = new Date()
+              console.log('tempo : ', end - begin );
             });
 
           });

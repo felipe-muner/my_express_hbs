@@ -1,6 +1,6 @@
 module.exports = {
   "format": "A4",
-  "orientation": "portrait",
+  "orientation": "landscape",
   "border": "0",
   "header": {
     "height": "10mm",
@@ -11,7 +11,7 @@ module.exports = {
     "contents": {
       //"first": "Cover page",
       //"2": "Second Page",
-      "default": '<span style="color: #aaa;">qweqw{{page}}</span>/<span>{{pages}}</span>',
+      "default": '<div style="text-align:right;"><span style="color: #aaa;">qweqw{{page}}</span>/<span>{{pages}}</span></div>',
       //"last": "Last Page"
     }
   }
