@@ -11,6 +11,10 @@ router.get('/', function(req, res, next) {
   res.render('login',{layout:false})
 });
 
+router.get('/testeJavaScriptTemplate', function(req, res, next) {
+  res.render('testeJavaScriptTemplate')
+});
+
 router.get('/gerarPDF', function(req, res, next) {
   conn.acquire(function(err,con){
     con.query('select * from User u inner join AccessGroup ag on u.Group_ID = ag.AccessGroupID limit 3000', function(err, result) {
