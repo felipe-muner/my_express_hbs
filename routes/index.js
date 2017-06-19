@@ -11,6 +11,10 @@ router.get('/', function(req, res, next) {
   res.render('login',{layout:false})
 });
 
+router.get('/createEvent', function(req, res, next) {
+  res.render('createEvent')
+});
+
 router.get('/testeJavaScriptTemplate', function(req, res, next) {
   res.render('testeJavaScriptTemplate')
 });

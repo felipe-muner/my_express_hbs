@@ -16,11 +16,7 @@ function hbsHelpers(hbs) {
         return null;
       },
       dizNome: function() {
-        console.log('reading it');
-        //console.log(this);
-        var dt = moment().format('YYYY-MM-DD hh:mm:ss:SSS')
-        console.log(dt);
-        return dt
+        return moment().format('YYYY-MM-DD hh:mm:ss:SSS')
       }
     }
   });
