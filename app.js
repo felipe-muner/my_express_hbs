@@ -7,6 +7,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
+var hbs = require('./helpers/handlebars.js')(exphbs);
 const expressSession = require('express-session');
 const nodemailer = require('nodemailer');
 const mailSender = require(process.env.PWD + '/util/MailSender')
@@ -21,16 +22,16 @@ var app = express();
 
 app.use(helmet())
 
-var hbs = exphbs.create({
-  defaultLayout:'layout',
-  helpers: {
-    section: function(name, options){
-      if(!this._sections) this._sections = {};
-      this._sections[name] = options.fn(this);
-      return null;
-    }
-  }
-});
+// var hbs = exphbs.create({
+//   defaultLayout:'layout',
+//   helpers: {
+//     section: function(name, options){
+//       if(!this._sections) this._sections = {};
+//       this._sections[name] = options.fn(this);
+//       return null;
+//     }
+//   }
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
